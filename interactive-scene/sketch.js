@@ -1,11 +1,17 @@
-let cutepotato;
+let cutePotato;
 let sadheart;
 let smallheart;
+let button;
 let hearts = [];
 let gravity = 0.1;
+let dx = 4;
+let dy = 4;
 let x = 250;
 let y = 150;
+let boxWidth = 150;
+let boxHeight = 100;
 let newColor = "white";
+let state = "notAnswered";
 
 function setup() {
   createCanvas(600, 500);
@@ -13,35 +19,56 @@ function setup() {
   fill(0);
   stroke(0);
   strokeWeight(2);
+  imageMode(CENTER);
+  x = 280;
+  y = 240;
 }
 
 function preload() {
-  cutepotato = loadImage("cutepotato.png");
+  cutePotato = loadImage("cutepotato.png");
   sadheart = loadImage("sadheart.png");
   smallheart = loadImage("smallheart.png");
 }
 
 function draw() {
+  //draw background
+  drawBoxes();
+  printText();
+  display();
+
+  //interactive functions
   backgroundChange();
-  
-  //yes box
+  move();
+  newHearts();
+  miniHearts();
+}
+
+function drawBoxes() {
+  //green yes box
   fill(32, 139, 58);
-  rect(100, 250, 150, 100);
-  //no box
-  fill(239, 35, 60);
-  rect(350, 250, 150, 100);
+  rect(100, 250, boxWidth, boxHeight);
+  
+  //red no box
+
+  button = createButton(' No  ', (239, 35, 60));
+  button.position(0, 100);
+  // fill(239, 35, 60);
+  // rect(350, 250, boxWidth, boxHeight);
+}
+
+function printText() {
   //texts
   fill(0);
   textSize(32);
   text("Yes", 150, 310);
-  text("No", 400, 310);
-  text("Will You Be My Valentines??", 100, 120);
+  // text("No", 400, 310);
+  // text("Will You Be My Valentines??", 100, 120);
+  let v = createP('Will You Be My Valentine??');
+  p.position(100, 200)
   textSize(16);
-  text("Press space to change background", 100, 430);
-  //call functions
-  display();
-  newHearts();
-  miniHearts();
+  let p = createP('Press space to change background');
+  p.position(100, 430);
+  
 }
 
 function backgroundChange() {
@@ -49,6 +76,7 @@ function backgroundChange() {
 }
 
 function keyPressed() {
+  //when space is pressed, a random color will be the background
   if (keyCode === 32) {
     let theColors = [
       //pastel red
@@ -68,27 +96,101 @@ function keyPressed() {
   }
 }
 
+function display() {
+  //draw potato image
+  image(cutePotato, x, y, 310, 175);
+}
+
 function miniHearts() {
+  //mini hearts will flash when the mouse hovers over "Yes" box
   if (mouseX > 100 && mouseX < 250 && mouseY > 250 && mouseY < 350) {
-    let x = random(70, 250);
-    let y = random(200, 350);
+    let x = random(70, 280);
+    let y = random(220, 380);
     image(smallheart, x, y, 40, 40);
   }
 }
 
+function move() {
+  //moves the potato with WASD
+  if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) {
+    // a moves him left
+    x -= dx;
+  }
+  if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) {
+    // d moves him right
+    x += dx;
+  }
+  if (keyIsDown(87) || keyIsDown(UP_ARROW)) {
+    // w moves him up
+    y -= dy;
+  }
+  if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) {
+    // s moves him down
+    y += dy;
+  }
+}
+
+function mousePressed() {
+  //When "Yes" is clicked while cutepotato is in the box, html appears
+  if (
+    mouseX > 100 &&
+    mouseX < 250 &&
+    mouseY > 250 &&
+    mouseY < 350 &&
+    //checking if cutepotato is in "Yes" box
+    x > 90 &&
+    x < 240 &&
+    y > 240 &&
+    y < 290
+  ) {
+    state = "yesAnswered";
+  }
+  //When No is clicked a heart drops in random position
+  button.mousePressed(setupNewHearts);
+  // if (mouseX > 350 && mouseX < 500 && mouseY > 250 && mouseY < 350) {
+  //   let newHeart = {
+  //     x: random(0, 500),
+  //     y: 0,
+  //     speed: 1,
+  //   };
+  //   hearts.push(newHeart);
+  // }
+}
+
+function switchPages() {
+  if (state === "yesAnswered"){
+    loadAnotherScript();
+  }
+}
+
+function loadAnotherScript() {
+  //loads html file
+  window.location.href = "Yes.html";
+}
+
+function setupNewHearts(){
+  let newHeart = {
+    x: random(0, 500),
+    y: 0,
+    speed: 1,
+  };
+  hearts.push(newHeart);
+}
+
+
 function newHearts() {
-  // Update and drop new hearts
-  let i = 0;
-  while (i < hearts.length) {
-    let object = hearts[i];
+  // Drops new hearts
+  let h = 0;
+  while (h < hearts.length) {
+    let object = hearts[h];
 
     // Gravity
     object.y += object.speed;
     object.speed += gravity;
 
     // Hits the ground
-    if (object.y > 410) {
-      object.y = 410; // Keep on the ground
+    if (object.y > 450) {
+      object.y = 450; // Keep on the ground
       object.speed *= -0.8; // Bounce with energy loss
 
       // Stops bouncing if it's too slow
@@ -99,31 +201,6 @@ function newHearts() {
 
     // Draws rectangle
     image(sadheart, object.x, object.y, 100, 90);
-    i++;
-  }
-}
-
-function display() {
-  image(cutepotato, x, y, 100, 100);
-}
-
-//function for "Yes"
-function loadAnotherScript() {
-  window.location.href = "Yes.html";
-}
-
-function mousePressed() {
-  //When Yes is clicked it switches to html
-  if (mouseX > 100 && mouseX < 250 && mouseY > 250 && mouseY < 350) {
-    loadAnotherScript();
-  }
-  //When No is clicked a heart drops in random position
-  if (mouseX > 350 && mouseX < 500 && mouseY > 250 && mouseY < 350) {
-    let newHeart = {
-      x: random(0, 500),
-      y: 0,
-      speed: 1,
-    };
-    hearts.push(newHeart);
+    h++;
   }
 }
