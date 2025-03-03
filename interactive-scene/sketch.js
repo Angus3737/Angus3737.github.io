@@ -22,6 +22,15 @@ function setup() {
   imageMode(CENTER);
   x = 280;
   y = 240;
+  //no button
+  button = createButton(' No  ');
+  button.position(400, 310);
+  //when clicked
+  button.mousePressed(setupNewHearts);
+  //text
+  let p = createP('Press space to change background');
+  p.position(100, 430);
+
 }
 
 function preload() {
@@ -32,15 +41,16 @@ function preload() {
 
 function draw() {
   //draw background
+  background(newColor)
   drawBoxes();
   printText();
   display();
 
   //interactive functions
-  backgroundChange();
   move();
   newHearts();
   miniHearts();
+  switchPages();
 }
 
 function drawBoxes() {
@@ -49,9 +59,6 @@ function drawBoxes() {
   rect(100, 250, boxWidth, boxHeight);
   
   //red no box
-
-  button = createButton(' No  ');
-  button.position(400, 310);
   // fill(239, 35, 60);
   // rect(350, 250, boxWidth, boxHeight);
 }
@@ -64,13 +71,7 @@ function printText() {
   // text("No", 400, 310);
   text("Will You Be My Valentines??", 100, 120);
   textSize(16);
-  let p = createP('Press space to change background');
-  p.position(100, 430);
   
-}
-
-function backgroundChange() {
-  background(newColor);
 }
 
 function keyPressed() {
@@ -144,7 +145,6 @@ function mousePressed() {
     state = "yesAnswered";
   }
   //When No is clicked a heart drops in random position
-  button.mousePressed(setupNewHearts);
   // if (mouseX > 350 && mouseX < 500 && mouseY > 250 && mouseY < 350) {
   //   let newHeart = {
   //     x: random(0, 500),
