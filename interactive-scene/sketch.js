@@ -50,8 +50,8 @@ function drawBoxes() {
   
   //red no box
 
-  button = createButton(' No  ', (239, 35, 60));
-  button.position(0, 100);
+  button = createButton(' No  ');
+  button.position(400, 310);
   // fill(239, 35, 60);
   // rect(350, 250, boxWidth, boxHeight);
 }
@@ -62,9 +62,7 @@ function printText() {
   textSize(32);
   text("Yes", 150, 310);
   // text("No", 400, 310);
-  // text("Will You Be My Valentines??", 100, 120);
-  let v = createP('Will You Be My Valentine??');
-  p.position(100, 200)
+  text("Will You Be My Valentines??", 100, 120);
   textSize(16);
   let p = createP('Press space to change background');
   p.position(100, 430);
