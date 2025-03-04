@@ -24,7 +24,12 @@ function setup() {
   y = 240;
   //no button
   button = createButton(' No  ');
-  button.position(400, 310);
+  button.position(380, 270);
+  button.size(100, 60)
+  button.style("background-color", 'red')
+  button.style("border-radius", "5px")
+  button.style("font-size", "20px")
+
   //when clicked
   button.mousePressed(setupNewHearts);
   //text
@@ -68,10 +73,9 @@ function printText() {
   fill(0);
   textSize(32);
   text("Yes", 150, 310);
-  // text("No", 400, 310);
-  text("Will You Be My Valentines??", 100, 120);
-  textSize(16);
-  
+  //text("Will You Be My Valentines??", 100, 120);  
+  text("Some things blah blah blah???", 100, 120);  
+
 }
 
 function keyPressed() {
@@ -144,15 +148,6 @@ function mousePressed() {
   ) {
     state = "yesAnswered";
   }
-  //When No is clicked a heart drops in random position
-  // if (mouseX > 350 && mouseX < 500 && mouseY > 250 && mouseY < 350) {
-  //   let newHeart = {
-  //     x: random(0, 500),
-  //     y: 0,
-  //     speed: 1,
-  //   };
-  //   hearts.push(newHeart);
-  // }
 }
 
 function switchPages() {
