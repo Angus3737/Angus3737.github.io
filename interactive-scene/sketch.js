@@ -90,7 +90,7 @@ function printText() {
   fill(0);
   textSize(32);
   text("Yes", 150, 310);
-  text("Will You Be My Valentines??", 100, 120);  
+  text("Will You Be My Valentine??", 100, 120);  
 }
 
 function keyPressed() {
