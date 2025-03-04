@@ -11,7 +11,7 @@ let y = 150;
 let boxWidth = 150;
 let boxHeight = 100;
 let newColor = "white";
-let state = "notAnswered";
+let state = "locked";
 
 function setup() {
   createCanvas(600, 500);
@@ -25,10 +25,10 @@ function setup() {
   //no button
   button = createButton(' No  ');
   button.position(380, 270);
-  button.size(100, 60)
-  button.style("background-color", 'red')
-  button.style("border-radius", "5px")
-  button.style("font-size", "20px")
+  button.size(100, 60);
+  button.style("background-color", 'red');
+  button.style("border-radius", "5px");
+  button.style("font-size", "20px");
 
   //when clicked
   button.mousePressed(setupNewHearts);
@@ -39,23 +39,46 @@ function setup() {
 }
 
 function preload() {
+  //load images
   cutePotato = loadImage("cutepotato.png");
   sadheart = loadImage("sadheart.png");
   smallheart = loadImage("smallheart.png");
 }
 
 function draw() {
+  //lock screen
+  lockedScreen();
+  unlockedScreen();
   //draw background
-  background(newColor)
-  drawBoxes();
-  printText();
-  display();
+  // background(newColor);
+  // drawBoxes();
+  // printText();
+  // display();
 
   //interactive functions
   move();
   newHearts();
   miniHearts();
   switchPages();
+}
+
+function lockedScreen() {
+  while (state === "locked") {
+    background (51);
+    fill("white");
+    rect(200, 250, boxWidth * 2, boxHeight);
+  }
+  if (keyIsDown(65) === true) {
+    state = "unlocked";
+  }
+}
+function unlockedScreen() {
+  if (state === unlocked) {
+    background(newColor);
+    drawBoxes();
+    printText();
+    display();
+  }
 }
 
 function drawBoxes() {
@@ -146,12 +169,6 @@ function mousePressed() {
     y > 240 &&
     y < 290
   ) {
-    state = "yesAnswered";
-  }
-}
-
-function switchPages() {
-  if (state === "yesAnswered"){
     loadAnotherScript();
   }
 }
@@ -173,9 +190,9 @@ function setupNewHearts(){
 
 function newHearts() {
   // Drops new hearts
-  let h = 0;
-  while (h < hearts.length) {
-    let object = hearts[h];
+  let i = 0;
+  while (i < hearts.length) {
+    let object = hearts[i];
 
     // Gravity
     object.y += object.speed;
@@ -194,6 +211,7 @@ function newHearts() {
 
     // Draws rectangle
     image(sadheart, object.x, object.y, 100, 90);
-    h++;
+    //moves on to next heart
+    i++;
   }
 }
