@@ -45,7 +45,7 @@ function draw() {
 function lockedScreen() {
   background (51);
   fill("white");
-  rect(150, 230, boxWidth * 2, boxHeight);
+  rect(150, 220, boxWidth * 2, boxHeight);
   fill(0);
   textSize(24);
   text("Enter Password", 220, 280);
