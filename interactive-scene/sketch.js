@@ -2,11 +2,11 @@ let cutePotato;
 let sadheart;
 let smallheart;
 let button;
-let gravity = 0.1;
 let dx = 4;
 let dy = 4;
 let x = 250;
 let y = 150;
+let gravity = 0.1;
 let heartX;
 let heartY;
 let heartSpeed;
@@ -25,11 +25,6 @@ function setup() {
   imageMode(CENTER);
   x = 280;
   y = 240;
-
-  //text
-  let p = createP('Press space to change background');
-  p.position(100, 430);
-
 }
 
 function preload() {
@@ -55,14 +50,14 @@ function lockedScreen() {
   textSize(24);
   text("Enter Password", 220, 280);
 
-  if (keyIsDown(65) && keyIsDown(66)) {
+  if (keyIsDown(49) && keyIsDown(50) && keyIsDown(51)) {
     state = "unlocked";
   }
 }
 function unlockedScreen() {
   if (state === "unlocked") {
     background(newColor);
-    drawBoxes();
+    drawBox();
     printText();
     display();
     //interactive functions
@@ -76,19 +71,18 @@ function unlockedScreen() {
     button.style("background-color", 'red');
     button.style("border-radius", "5px");
     button.style("font-size", "20px");
+    //text
+    let p = createP('Press space to change background');
+    p.position(100, 430);
     //when clicked
     button.mousePressed(setupNewHearts);
   }
 }
 
-function drawBoxes() {
+function drawBox() {
   //green yes box
   fill(32, 139, 58);
   rect(100, 250, boxWidth, boxHeight);
-  
-  //red no box
-  // fill(239, 35, 60);
-  // rect(350, 250, boxWidth, boxHeight);
 }
 
 function printText() {
@@ -96,9 +90,7 @@ function printText() {
   fill(0);
   textSize(32);
   text("Yes", 150, 310);
-  //text("Will You Be My Valentines??", 100, 120);  
-  text("Some things blah blah blah???", 100, 120);  
-
+  text("Will You Be My Valentines??", 100, 120);  
 }
 
 function keyPressed() {
