@@ -2,12 +2,15 @@ let cutePotato;
 let sadheart;
 let smallheart;
 let button;
-let hearts = [];
 let gravity = 0.1;
 let dx = 4;
 let dy = 4;
 let x = 250;
 let y = 150;
+let heartX;
+let heartY;
+let heartSpeed;
+let falling = false;
 let boxWidth = 150;
 let boxHeight = 100;
 let newColor = "white";
@@ -22,16 +25,7 @@ function setup() {
   imageMode(CENTER);
   x = 280;
   y = 240;
-  //no button
-  button = createButton(' No  ');
-  button.position(380, 270);
-  button.size(100, 60);
-  button.style("background-color", 'red');
-  button.style("border-radius", "5px");
-  button.style("font-size", "20px");
 
-  //when clicked
-  button.mousePressed(setupNewHearts);
   //text
   let p = createP('Press space to change background');
   p.position(100, 430);
@@ -46,38 +40,44 @@ function preload() {
 }
 
 function draw() {
-  //lock screen
-  lockedScreen();
-  unlockedScreen();
-  //draw background
-  // background(newColor);
-  // drawBoxes();
-  // printText();
-  // display();
-
-  //interactive functions
-  move();
-  newHearts();
-  miniHearts();
-  switchPages();
+  if (state === "locked") {
+    lockedScreen();
+  } else {
+    unlockedScreen();
+  }
 }
 
 function lockedScreen() {
-  while (state === "locked") {
-    background (51);
-    fill("white");
-    rect(200, 250, boxWidth * 2, boxHeight);
-  }
-  if (keyIsDown(65) === true) {
+  background (51);
+  fill("white");
+  rect(150, 230, boxWidth * 2, boxHeight);
+  fill(0);
+  textSize(24);
+  text("Enter Password", 220, 280);
+
+  if (keyIsDown(65) && keyIsDown(66)) {
     state = "unlocked";
   }
 }
 function unlockedScreen() {
-  if (state === unlocked) {
+  if (state === "unlocked") {
     background(newColor);
     drawBoxes();
     printText();
     display();
+    //interactive functions
+    move();
+    newHearts();
+    miniHearts();
+    //no button
+    button = createButton(' No  ');
+    button.position(380, 270);
+    button.size(100, 60);
+    button.style("background-color", 'red');
+    button.style("border-radius", "5px");
+    button.style("font-size", "20px");
+    //when clicked
+    button.mousePressed(setupNewHearts);
   }
 }
 
@@ -179,39 +179,31 @@ function loadAnotherScript() {
 }
 
 function setupNewHearts(){
-  let newHeart = {
-    x: random(0, 500),
-    y: 0,
-    speed: 1,
-  };
-  hearts.push(newHeart);
+  //set up heart conditions
+  heartX = random(0, 500);
+  heartY = 0;
+  heartSpeed = 1;
+  falling = true;
 }
 
-
 function newHearts() {
-  // Drops new hearts
-  let i = 0;
-  while (i < hearts.length) {
-    let object = hearts[i];
-
+  if (falling) {  
     // Gravity
-    object.y += object.speed;
-    object.speed += gravity;
+    heartY += heartSpeed;
+    heartSpeed += gravity;
 
     // Hits the ground
-    if (object.y > 450) {
-      object.y = 450; // Keep on the ground
-      object.speed *= -0.8; // Bounce with energy loss
+    if (heartY > 450) {
+      heartY = 450; // Keep on the ground
+      heartSpeed *= -0.8; // Bounce with energy loss
 
       // Stops bouncing if it's too slow
-      if (abs(object.speed) < 1.5) {
-        object.speed = 0;
+      if (abs(heartSpeed) < 1.5) {
+        heartSpeed = 0;
+        falling = false;
       }
     }
 
-    // Draws rectangle
-    image(sadheart, object.x, object.y, 100, 90);
-    //moves on to next heart
-    i++;
-  }
+    // Draws heart
+    image(sadheart, heartX, heartY, 200, 180);  }
 }
