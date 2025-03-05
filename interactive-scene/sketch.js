@@ -29,7 +29,7 @@ function setup() {
 
 function preload() {
   //load images
-  cutePotato = loadImage("cutepotato.png");
+  cutePotato = loadImage("cutePotato.png");
   sadheart = loadImage("sadheart.png");
   smallheart = loadImage("smallheart.png");
 }
