@@ -20,6 +20,7 @@ function draw() {
   for (let aLine of lineArray) {
     line(aLine.x1, aLine.y1, aLine.x2, aLine.y2);
   }
+  rect(100, 100, 0, 200);
 }
 
 function spawnLine(x, y, theSize) {
