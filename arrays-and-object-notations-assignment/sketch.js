@@ -15,7 +15,6 @@ function draw() {
   }
 
   orbitControl();
-  spiral();
 
 }
 
