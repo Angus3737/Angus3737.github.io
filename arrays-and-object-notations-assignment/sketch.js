@@ -2,7 +2,7 @@
 
 // const LINE_SIZE = 50;
 let spiralArray = [];
-
+let state = ["medium"]
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
@@ -11,11 +11,10 @@ function setup() {
 function draw() {
   background(200);
   for (let spiral of spiralArray) {
-    spiral();
+    spiralAnimation(spiral)
   }
 
   orbitControl();
-
 }
 
 
@@ -28,26 +27,31 @@ function keyPressed() {
   }
 }
 
-function spiral() {
-  for (let i = 0; i < 25; i++) {
-    translate(60, 20, -10); // Moves each new line
+function spiralAnimation(spiral) {
+  push();
+  translate(spiral.x1, spiral.y1, spiral.z1); // Moves each new line
+
+  for (let i = 0; i < 10; i++) {
+ // Moves each new line
     rotateY(frameCount * 0.005);
-    line(x1, y1, z1, x2, y2, z2);
+    line(0, 0, 0, spiral.x2, spiral.y2, spiral.z2);
+    translate(60, 20, -10);
   }
+  pop();
 }
 
 function mousePressed() {
-  spawnSpiral()
+  spawnSpiral();
 }
 
 function spawnSpiral() {
   let someSpiral= {
     x1: 0,
-    y1: -200,
+    y1: random(-200, -100),
     z1: 0,
-    x2: 200,
-    y2: 100,
-    z2: -50,
+    x2: random(500, 1500),
+    y2: random(500, 1500),
+    z2: random(-300, 300),
   };
   spiralArray.push(someSpiral);
 }
