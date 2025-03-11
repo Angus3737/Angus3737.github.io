@@ -25,7 +25,7 @@ function keyPressed() {
     let camX = 0;
     let camY = -800;
     let camZ = 0;
-    camera(camX, camY, camZ, 0, 0, 0, 0, 0, 1)
+    camera(camX, camY, camZ, 0, 0, 0, 0, 0, 1);
   }
 }
 
