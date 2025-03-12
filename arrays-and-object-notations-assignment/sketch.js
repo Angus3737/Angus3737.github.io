@@ -31,8 +31,8 @@ function spiralAnimation(spiral) {
   push();
   translate(spiral.x1, spiral.y1, spiral.z1); // Moves each new line
 
-  for (let i = 0; i < 10; i++) {
- // Moves each new line
+  for (let i = 0; i < 20; i++) {
+// Moves each new line
     rotateY(frameCount * 0.005);
     line(0, 0, 0, spiral.x2, spiral.y2, spiral.z2);
     translate(60, 20, -10);
