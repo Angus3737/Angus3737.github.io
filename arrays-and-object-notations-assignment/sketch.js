@@ -2,19 +2,18 @@
 
 // const LINE_SIZE = 50;
 let spiralArray = [];
-let state = ["medium"]
-
+let state = ["medium"];
+// let color = (random(0,255), random(0,255), random(0,255));
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
 }
 
 function draw() {
-  background(200);
-  for (let spiral of spiralArray) {
-    spiralAnimation(spiral)
-  }
-
+  background(0);
+  create();
   orbitControl();
+  spawnLine();
+  spawnLine2();
 }
 
 
@@ -27,13 +26,22 @@ function keyPressed() {
   }
 }
 
+function keyPressed2() {
+  if (keyCode === 82) {
+    let camX = 0;
+    let camY = 0;
+    let camZ = 800;
+    camera(camX, camY, camZ, 0, 0, 0, 0, 0, 1);
+  }
+}
+
 function spiralAnimation(spiral) {
   push();
-  translate(spiral.x1, spiral.y1, spiral.z1); // Moves each new line
+  translate(spiral.x1, spiral.y1, spiral.z1);
 
   for (let i = 0; i < 20; i++) {
-// Moves each new line
     rotateY(frameCount * 0.005);
+    stroke("red");
     line(0, 0, 0, spiral.x2, spiral.y2, spiral.z2);
     translate(60, 20, -10);
   }
@@ -42,6 +50,7 @@ function spiralAnimation(spiral) {
 
 function mousePressed() {
   spawnSpiral();
+
 }
 
 function spawnSpiral() {
@@ -49,9 +58,29 @@ function spawnSpiral() {
     x1: 0,
     y1: random(-200, -100),
     z1: 0,
-    x2: random(500, 1500),
-    y2: random(500, 1500),
+    x2: random(1000, 2000),
+    y2: random(1000, 2000),
     z2: random(-300, 300),
   };
   spiralArray.push(someSpiral);
+}
+
+function create() {
+  for (let spiral of spiralArray) {
+    spiralAnimation(spiral);
+  }
+}
+
+function spawnLine() {
+  rotateY(frameCount * 0.005);
+  stroke("green");
+  line(0, 0, 0, 2000, 1000, 10);
+  translate(60, 20, -10);
+}
+
+function spawnLine2() {
+  rotateY(frameCount * 0.005);
+  stroke("green");
+  line(0, 0, 0, 1500, 1000, 10);
+  translate(60, 20, -10);
 }
