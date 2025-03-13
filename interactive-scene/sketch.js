@@ -37,7 +37,8 @@ function preload() {
 function draw() {
   if (state === "locked") {
     lockedScreen();
-  } else {
+  } 
+  else {
     unlockedScreen();
   }
 }

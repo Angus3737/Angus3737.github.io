@@ -2,7 +2,7 @@
 
 // const LINE_SIZE = 50;
 let spiralArray = [];
-let state = ["medium"];
+let state = "unlocked";
 let colorValue;
 
 function setup() {
@@ -10,12 +10,43 @@ function setup() {
   colorValue = color(random(0,255), random(0,255), random(0,255));
 }
 
-function draw() {
+// function lockedScreen() {
+//   background (100);
+
+//   let p = createP('Press T to view from the top position');
+//   p.position(windowWidth/2 - 150, windowHeight/2 - 200);
+
+//   let p1 = createP('Press R to reset the viewing position');
+//   p1.position(windowWidth/2 - 150, windowHeight/2 - 100);
+
+//   let p2 = createP('Use the mouse and scroll wheel to look around');
+//   p2.position(windowWidth/2 - 150, windowHeight/2);
+
+//   let p3 = createP('Press space to enter');
+//   p3.position(windowWidth/2 - 150, windowHeight/2 + 100);
+
+//   if (keyIsDown(69)) {
+//     state = "unlocked";
+//   }
+// }
+
+function unlockedScreen() {
   background(0);
   create();
   orbitControl();
+  spacePressed();
   spawnLine();
   spawnLine2();
+}
+
+function draw() {
+  if (state === "locked") {
+    lockedScreen();
+  } 
+  else {
+    unlockedScreen();
+  }
+
 }
 
 
@@ -49,8 +80,10 @@ function spiralAnimation(spiral) {
   pop();
 }
 
-function mousePressed() {
-  spawnSpiral();
+function spacePressed() {
+  if (keyIsDown(32)){
+    spawnSpiral();
+  }
 
 }
 
@@ -60,8 +93,8 @@ function spawnSpiral() {
     y1: random(-200, -100),
     z1: 0,
     x2: 2500,
-    y2: 2500,
-    z2: random(-100, 100),
+    y2: 400,
+    z2: 2500,
   };
   spiralArray.push(someSpiral);
 }
@@ -74,9 +107,9 @@ function create() {
 
 function spawnLine() {
   rotateY(frameCount * 0.005);
-  stroke("green");
-  line(0, 0, 0, 2000, 1000, 10);
-  translate(60, 20, -10);
+  stroke("blue");
+  line(0, 0, 0, 2000, 0, 1000);
+  translate(0, 0, 0);
 }
 
 function spawnLine2() {
