@@ -3,9 +3,11 @@
 // const LINE_SIZE = 50;
 let spiralArray = [];
 let state = ["medium"];
-// let color = (random(0,255), random(0,255), random(0,255));
+let colorValue;
+
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
+  colorValue = color(random(0,255), random(0,255), random(0,255));
 }
 
 function draw() {
@@ -18,20 +20,19 @@ function draw() {
 
 
 function keyPressed() {
+  //Press T for top view
   if (keyCode === 84) {
     let camX = 0;
     let camY = -800;
     let camZ = 0;
     camera(camX, camY, camZ, 0, 0, 0, 0, 0, 1);
   }
-}
-
-function keyPressed2() {
-  if (keyCode === 82) {
+  //Press R to reset view
+  else if (keyCode === 82) {
     let camX = 0;
     let camY = 0;
     let camZ = 800;
-    camera(camX, camY, camZ, 0, 0, 0, 0, 0, 1);
+    camera(camX, camY, camZ, 0, 0, 0, 0, 1, 0);
   }
 }
 
@@ -41,7 +42,7 @@ function spiralAnimation(spiral) {
 
   for (let i = 0; i < 20; i++) {
     rotateY(frameCount * 0.005);
-    stroke("red");
+    stroke(colorValue);
     line(0, 0, 0, spiral.x2, spiral.y2, spiral.z2);
     translate(60, 20, -10);
   }
@@ -58,9 +59,9 @@ function spawnSpiral() {
     x1: 0,
     y1: random(-200, -100),
     z1: 0,
-    x2: random(1000, 2000),
-    y2: random(1000, 2000),
-    z2: random(-300, 300),
+    x2: 2500,
+    y2: 2500,
+    z2: random(-100, 100),
   };
   spiralArray.push(someSpiral);
 }
