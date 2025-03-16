@@ -2,12 +2,13 @@
 
 // const LINE_SIZE = 50;
 let sunRaysArray = [];
+let planetsArray = [];
 let state = "unlocked";
 let colorValue;
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
-  colorValue = color(random(0,255), random(0,255), random(0,255));
+  // colorValue = color(random(0,255), random(0,255), random(0,255));
 }
 
 function lockedScreen() {
@@ -40,7 +41,6 @@ function unlockedScreen() {
   background(0);
   create();
   orbitControl();
-  spacePressed();
   spawnLine();
   spawnSun();
 }
@@ -72,19 +72,19 @@ function keyPressed() {
     camera(camX, camY, camZ, 0, 0, 0, 0, 1, 0);
   }
   else if (keyCode === 89) {
-    spawnsunRays();
+    createSunRays();
   }
   else if (keyCode === 13) {
-  
-    spawnPlanets();
+    createPlanets();
   }
 }
+
 
 function spawnSun() {
   //draws the sun in the center
   rotateY(frameCount * 0.005);
   stroke("orange");
-  translate(0, 0, 0);
+  fill(255, 204, 0);
   sphere(110);
 }
 
@@ -101,17 +101,10 @@ function sunRaysAnimation(sunRays) {
   pop();
 }
 
-function spacePressed() {
-  //spawns sun rays when space is pressed
-  // if (keyIsDown(89)){
-  //   spawnsunRays();
-  // }
-
-}
 
 //edit this one and the new spawning function, change name
 
-function spawnsunRays() {
+function createSunRays() {
   //sun rays notation
   let somesunRays= {
     x1: 25,
@@ -128,6 +121,9 @@ function create() {
   for (let sunRays of sunRaysArray) {
     sunRaysAnimation(sunRays);
   }
+  for (let planets of planetsArray) {
+    planetsOrbit(planets);
+  }
 }
 
 function spawnLine() {
@@ -139,9 +135,34 @@ function spawnLine() {
 
 
 
-function spawnPlanets() {
+// function spawnPlanets() {
+//   rotateY(frameCount * 0.01);
+//   stroke("yellow");
+//   line(0, 0, 0, sunRays.x2, sunRays.y2, sunRays.z2);
+//   translate(60, 5, 0);
+// }
+
+function createPlanets() {
+  //planet notation
+  let somePlanets= {
+    r: random(20, 90),
+    x: random(-1500, 1500),
+    y: 0,
+    z: random(-1500, 1500),
+    colorValue: color(random(0,255), random(0,255), random(0,255)),
+  };
+  planetsArray.push(somePlanets);
+}
+
+function planetsOrbit(planets) {
+  push();
+  translate(planets.x, planets.y, planets.z);
+
   rotateY(frameCount * 0.01);
-  stroke("yellow");
-  line(0, 0, 0, sunRays.x2, sunRays.y2, sunRays.z2);
+  stroke(51);
+  fill(planets.colorValue);
+  sphere(planets.r);
   translate(60, 5, 0);
+  
+  pop();
 }
