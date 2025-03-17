@@ -12,6 +12,8 @@ function setup() {
 }
 
 function lockedScreen() {
+  //creates introscreen with instructions
+
   // background (100);
 
   // let p = createP('Press T to view from the top position');
@@ -38,6 +40,7 @@ function lockedScreen() {
 }
 
 function unlockedScreen() {
+  //call functions
   background(0);
   create();
   orbitControl();
@@ -46,6 +49,7 @@ function unlockedScreen() {
 }
 
 function draw() {
+  //checking the state
   if (state === "locked") {
     lockedScreen();
   } 
@@ -57,23 +61,25 @@ function draw() {
 
 
 function keyPressed() {
-  //Press T for top view
+  //press T for top view
   if (keyCode === 84) {
     let camX = 0;
     let camY = -800;
     let camZ = 0;
     camera(camX, camY, camZ, 0, 0, 0, 0, 0, 1);
   }
-  //Press R to reset view
+  //press R to reset view
   else if (keyCode === 82) {
     let camX = 0;
     let camY = 0;
     let camZ = 800;
     camera(camX, camY, camZ, 0, 0, 0, 0, 1, 0);
   }
+  //press Y to spawn sun rays
   else if (keyCode === 89) {
     createSunRays();
   }
+  //press ENTER to spawn planets
   else if (keyCode === 13) {
     createPlanets();
   }
@@ -83,12 +89,15 @@ function keyPressed() {
 function spawnSun() {
   //draws the sun in the center
   rotateY(frameCount * 0.005);
-  stroke("orange");
-  fill(255, 204, 0);
-  sphere(110);
-}
+  //orange stroke
+  stroke(255, 72, 0);
+  //yellow fill
+  fill(255, 170, 0);
+  sphere(110, 21);
+} 
 
 function sunRaysAnimation(sunRays) {
+  
   push();
   translate(sunRays.x1, sunRays.y1, sunRays.z1);
 
@@ -101,8 +110,6 @@ function sunRaysAnimation(sunRays) {
   pop();
 }
 
-
-//edit this one and the new spawning function, change name
 
 function createSunRays() {
   //sun rays notation
@@ -134,7 +141,7 @@ function spawnLine() {
 }
 
 
-
+//spawns line
 // function spawnPlanets() {
 //   rotateY(frameCount * 0.01);
 //   stroke("yellow");
@@ -149,6 +156,8 @@ function createPlanets() {
     x: random(-2000, 2000),
     y: 0,
     z: random(-2000, 2000),
+    detailX: random(0, 10),
+    detailY: random(0, 10),
     colorValue: color(random(0,255), random(0,255), random(0,255)),
   };
   planetsArray.push(somePlanets);
@@ -156,7 +165,7 @@ function createPlanets() {
 
 function planetsOrbit(planets) {
   
-  // planets.angle += 0.01;
+  planets.angle += 0.01;
 
   // let orbitX = 
   // let orbitY = 
@@ -169,4 +178,15 @@ function planetsOrbit(planets) {
   sphere(planets.r);
   
   pop();
+}
+
+function mousePressed() {
+  for (let planets of planetsArray) {
+    //if the planet is being clicked on
+    if (dist(mouseX, mouseY, planets.x, planets.y) < planets.r) {
+      let index = planetsArray.indexOf(planets);
+      planetsArray.splice(index, 1);
+    }
+  }
+  
 }
