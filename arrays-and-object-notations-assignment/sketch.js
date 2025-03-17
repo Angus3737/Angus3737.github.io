@@ -146,23 +146,27 @@ function createPlanets() {
   //planet notation
   let somePlanets= {
     r: random(20, 90),
-    x: random(-1500, 1500),
+    x: random(-2000, 2000),
     y: 0,
-    z: random(-1500, 1500),
+    z: random(-2000, 2000),
     colorValue: color(random(0,255), random(0,255), random(0,255)),
   };
   planetsArray.push(somePlanets);
 }
 
 function planetsOrbit(planets) {
+  
+  // planets.angle += 0.01;
+
+  // let orbitX = 
+  // let orbitY = 
+
   push();
   translate(planets.x, planets.y, planets.z);
-
   rotateY(frameCount * 0.01);
   stroke(51);
   fill(planets.colorValue);
   sphere(planets.r);
-  translate(60, 5, 0);
   
   pop();
 }
