@@ -33,8 +33,8 @@ function setup() {
   //title
   // p.style("font-size", "20px"); 
 
-  // p = createP("Solar Sytem Simlation");
-  // p.position(windowWidth/2 - 150, windowHeight/2 - 250);
+  p = createP("Solar Sytem Simlation");
+  p.position(windowWidth/2 - 150, windowHeight/2 - 250);
 
   //instructions
   p1 = createP('Press T to view from the top position');
@@ -75,7 +75,6 @@ function unlockedScreen() {
   background(0);
   create();
   orbitControl();
-  // spawnLine();
   spawnSun();
 }
 
@@ -173,12 +172,16 @@ function create() {
 }
 
 function createPlanets() {
+  // let orbitRadius = random(300, 1000);
+  // let startAngle = random(0, 2 * Math.PI);
+
   //planet notation
   let somePlanets= {
     r: random(20, 90),
-    x: random(-2000, 2000),
+    angle: random(0, 2 * Math.PI),
+    orbitRadius: random(300, 1000),
+    speed: 0.01,
     y: 0,
-    z: random(-2000, 2000),
     detailX: random(0, 10),
     detailY: random(0, 10),
     colorValue: color(random(0,255), random(0,255), random(0,255)),
@@ -188,13 +191,14 @@ function createPlanets() {
 
 function planetsOrbit(planets) {
   
-  planets.angle += 0.01;
+  planets.angle += planets.speed;
 
-  // let orbitX = 
-  // let orbitY = 
+  let orbitX = planets.orbitRadius * cos(planets.angle);
+  let orbitZ = planets.orbitRadius * sin(planets.angle);
 
   push();
-  translate(planets.x, planets.y, planets.z);
+
+  translate(orbitX, planets.y, orbitZ);
   rotateY(frameCount * 0.01);
   stroke(51);
   fill(planets.colorValue);
@@ -204,14 +208,19 @@ function planetsOrbit(planets) {
 }
 
 function mousePressed() {
-  for (let planets of planetsArray) {
-    let position = screenPosition(planets.x, planets.y, planets.z);
-    let distance = dist(mouseX, mouseY, planets.x, planets.y);
+  for (let i = planetsArray.length - 1; i >= 0; i--) {
+    let planet = planetsArray[i];
+
+    let planetPosition = createVector(planet.orbitRadius * cos(planet.angle),
+  planet.y, planet.orbitRadius * sin(planet.angle));
+
+    let screenPosition = screenPosition(planetPosition.x, planetPosition.y, planetPosition.z);
+
+    let distance = dist(mouseX, mouseY, screenPosition.x, screenPosition.y);
+
     //if the planet is being clicked on
-    if (d < planets.r) {
-      let index = planetsArray.indexOf(planets);
-      planetsArray.splice(index, 1);
+    if (distance < planet.r) {
+      planetsArray.splice(i, 1);
     }
   }
-  
 }
