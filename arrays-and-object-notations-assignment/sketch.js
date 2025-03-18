@@ -130,7 +130,7 @@ function spawnLine() {
   rotateY(frameCount * 0.005);
   stroke("blue");
   line(0, 0, 0, 2000, 0, 1000);
-  translate(0, 0, 0);
+  translate(200, 0, -10);
 }
 
 
