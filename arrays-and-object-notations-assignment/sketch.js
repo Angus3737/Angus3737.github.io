@@ -137,7 +137,7 @@ function spawnLine() {
   rotateY(frameCount * 0.005);
   stroke("blue");
   line(0, 0, 0, 2000, 0, 1000);
-  translate(200, 0, -10);
+  translate(0, 0, 0);
 }
 
 
@@ -182,8 +182,10 @@ function planetsOrbit(planets) {
 
 function mousePressed() {
   for (let planets of planetsArray) {
+    let position = screenPosition(planets.x, planets.y, planets.z);
+    let distance = dist(mouseX, mouseY, planets.x, planets.y);
     //if the planet is being clicked on
-    if (dist(mouseX, mouseY, planets.x, planets.y) < planets.r) {
+    if (d < planets.r) {
       let index = planetsArray.indexOf(planets);
       planetsArray.splice(index, 1);
     }
