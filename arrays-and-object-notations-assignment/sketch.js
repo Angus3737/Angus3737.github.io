@@ -1,38 +1,69 @@
-// Solar System Animation
+// Solar System Simulation
+// Angus Li
+//
 
-// const LINE_SIZE = 50;
+
 let sunRaysArray = [];
 let planetsArray = [];
-let state = "unlocked";
+let state = "locked";
 let colorValue;
+let p;
+let p1;
+let p2;
+let p3;
+let p4;
+let p5;
+let p6;
+// import starsTexture from '../img/starsTexture.jpg';
+
+// const cubeTextureLoader = new THREE.CubeTextureLoader();
+// scene.background = cubeTextureLoader.load([
+//   starsTexture,
+//   starsTexture,
+//   starsTexture,
+//   starsTexture,
+//   starsTexture,
+//   starsTexture,  
+// ]);
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
-  // colorValue = color(random(0,255), random(0,255), random(0,255));
+
+  //title
+  // p.style("font-size", "20px"); 
+
+  // p = createP("Solar Sytem Simlation");
+  // p.position(windowWidth/2 - 150, windowHeight/2 - 250);
+
+  //instructions
+  p1 = createP('Press T to view from the top position');
+  p1.position(windowWidth/2 - 150, windowHeight/2 - 150);
+
+  p2 = createP('Press R to reset the viewing position');
+  p2.position(windowWidth/2 - 150, windowHeight/2 - 100);
+
+  p3 = createP('Press Y to add the suns rays');
+  p3.position(windowWidth/2 - 150, windowHeight/2 - 50);
+  
+  p4 = createP('Press ENTER to spawn planets');
+  p4.position(windowWidth/2 - 150, windowHeight/2);
+
+  p5 = createP('Use the mouse and scroll wheel to look around');
+  p5.position(windowWidth/2 - 150, windowHeight/2 + 100);
+
+  p6 = createP('Press E to enter');
+  p6.position(windowWidth/2 - 150, windowHeight/2 + 150);
 }
 
 function lockedScreen() {
-  //creates introscreen with instructions
+  // creates introscreen with instructions
 
-  // background (100);
+  background (100);
 
-  // let p = createP('Press T to view from the top position');
-  // p.position(windowWidth/2 - 150, windowHeight/2 - 200);
-
-  // let p1 = createP('Press R to reset the viewing position');
-  // p1.position(windowWidth/2 - 150, windowHeight/2 - 100);
-
-  // let p2 = createP('Use the mouse and scroll wheel to look around');
-  // p2.position(windowWidth/2 - 150, windowHeight/2);
-
-  // let p3 = createP('Press space to enter');
-  // p3.position(windowWidth/2 - 150, windowHeight/2 + 100);
-
-  // fill("white");
-  // rect(0, 0, 300, 500);
-  // fill(0);
-  // textSize(24);
-  // text("Press T to view from the top position", 0, 0);
+  fill("white");
+  rect(-200, -250, 400, 550);
+  fill(0);
 
   if (keyIsDown(69)) {
     state = "unlocked";
@@ -44,7 +75,7 @@ function unlockedScreen() {
   background(0);
   create();
   orbitControl();
-  spawnLine();
+  // spawnLine();
   spawnSun();
 }
 
@@ -55,6 +86,14 @@ function draw() {
   } 
   else {
     unlockedScreen();
+    //hide all the text
+    p.hide();
+    p1.hide();
+    p2.hide();
+    p3.hide();
+    p4.hide();
+    p5.hide();
+    p6.hide();
   }
 
 }
@@ -101,7 +140,7 @@ function sunRaysAnimation(sunRays) {
   push();
   translate(sunRays.x1, sunRays.y1, sunRays.z1);
 
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 37; i++) {
     rotateY(frameCount * 0.01);
     stroke("yellow");
     line(0, 0, 0, sunRays.x2, sunRays.y2, sunRays.z2);
@@ -132,22 +171,6 @@ function create() {
     planetsOrbit(planets);
   }
 }
-
-function spawnLine() {
-  rotateY(frameCount * 0.005);
-  stroke("blue");
-  line(0, 0, 0, 2000, 0, 1000);
-  translate(0, 0, 0);
-}
-
-
-//spawns line
-// function spawnPlanets() {
-//   rotateY(frameCount * 0.01);
-//   stroke("yellow");
-//   line(0, 0, 0, sunRays.x2, sunRays.y2, sunRays.z2);
-//   translate(60, 5, 0);
-// }
 
 function createPlanets() {
   //planet notation
