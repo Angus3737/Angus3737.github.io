@@ -1,8 +1,6 @@
-// Arrays and Object Notations Assignment - Solar System Simulation
+// Solar System Simulation
 // Angus Li
-// March 20, 2025
-// Creating a simulation of a fictional solar system including the sun and orbiting planets
-// Extras for Experts: I explored WEBGL with 3d elements and added sound effects
+// Extras for Experts:
 
 
 let sunRaysArray = [];
@@ -16,8 +14,12 @@ let p3;
 let p4;
 let p5;
 
+
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
+
+  //load audio
+  // let soundFX = createAudio('disappearsound.wav');
 
   //instructions
   p = createP('Press T to view from the top position');
@@ -39,20 +41,15 @@ function setup() {
   p5.position(windowWidth/2 - 150, windowHeight/2 + 100);
 }
 
-function preload() {
-  //load in sound effects
-  audioDisappear = createAudio("disappearsound.wav");
-  audioMajestic = createAudio("orchestratransition.wav");
-}
-
 function lockedScreen() {
   // background for the instructions
+
   background (100);
+
   fill("white");
   rect(-200, -250, 400, 500);
   fill(0);
 
-  //switch to the simulation when E is pressed
   if (keyIsDown(69)) {
     state = "unlocked";
   }
@@ -64,14 +61,6 @@ function unlockedScreen() {
   create();
   orbitControl();
   spawnSun();
-
-  //hide all the text
-  p.hide();
-  p1.hide();
-  p2.hide();
-  p3.hide();
-  p4.hide();
-  p5.hide();
 }
 
 function draw() {
@@ -81,9 +70,17 @@ function draw() {
   } 
   else {
     unlockedScreen();
+    //hide all the text
+    p.hide();
+    p1.hide();
+    p2.hide();
+    p3.hide();
+    p4.hide();
+    p5.hide();
   }
 
 }
+
 
 function keyPressed() {
   //press T for top view
@@ -100,9 +97,8 @@ function keyPressed() {
     let camZ = 800;
     camera(camX, camY, camZ, 0, 0, 0, 0, 1, 0);
   }
-  //press Y to spawn sun rays, with sound effect
+  //press Y to spawn sun rays
   else if (keyCode === 89) {
-    audioMajestic.play();
     createSunRays();
   }
   //press ENTER to spawn planets
@@ -111,8 +107,10 @@ function keyPressed() {
   }
   //press Backspace to get rid of previous planet, with sound effect
   else if (keyCode === 8) {
-    audioDisappear.play();
+    let soundFX = createAudio('disappearsound.wav');
+
     planetsArray.pop();
+    soundFX.showControls();
   }
 }
 
@@ -141,8 +139,7 @@ function createSunRays() {
 }
 
 function sunRaysAnimation(sunRays) {
-  //creates 43 rays of light that spiral
-
+  
   push();
   translate(sunRays.x1, sunRays.y1, sunRays.z1);
 
@@ -166,6 +163,7 @@ function create() {
 }
 
 function createPlanets() {
+
   //planet notation
   let somePlanets= {
     r: random(20, 90),
@@ -173,14 +171,14 @@ function createPlanets() {
     orbitRadius: random(300, 3000),
     speed: 0.01,
     y: 0,
+    detailX: random(5,7),
     colorValue: color(random(0,255), random(0,255), random(0,255)),
   };
   planetsArray.push(somePlanets);
 }
 
 function planetsOrbit(planets) {
-  //spawns in a planet that orbits around the sun
-
+  
   planets.angle += planets.speed;
 
   let orbitX = planets.orbitRadius * cos(planets.angle);
@@ -193,6 +191,7 @@ function planetsOrbit(planets) {
   stroke(51);
   fill(planets.colorValue);
   sphere(planets.r);
+  // planet.detailX
 
   pop();
 }
