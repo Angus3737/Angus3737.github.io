@@ -1,7 +1,7 @@
 // Arrays and Object Notations Assignment - Solar System Simulation
 // Angus Li
 // March 20, 2025
-// Creating a simulation of a fictional solar system including the sun and orbiting planets
+// Purpose: Creating a simulation of a fictional solar system including the sun and orbiting planets
 // Extras for Experts: I explored WEBGL with 3d elements and added sound effects
 
 
@@ -9,6 +9,8 @@ let sunRaysArray = [];
 let planetsArray = [];
 let state = "locked";
 let colorValue;
+
+//html text
 let p;
 let p1;
 let p2;
@@ -16,10 +18,18 @@ let p3;
 let p4;
 let p5;
 
+function preload() {
+  //load in sound effects
+
+  audioDisappear = createAudio("disappearsound.wav");
+  audioMajestic = createAudio("orchestratransition.wav");
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
 
   //instructions
+
   p = createP('Press T to view from the top position');
   p.position(windowWidth/2 - 150, windowHeight/2 - 200);
 
@@ -39,20 +49,16 @@ function setup() {
   p5.position(windowWidth/2 - 150, windowHeight/2 + 100);
 }
 
-function preload() {
-  //load in sound effects
-  audioDisappear = createAudio("disappearsound.wav");
-  audioMajestic = createAudio("orchestratransition.wav");
-}
-
 function lockedScreen() {
-  // background for the instructions
+  //background for the instruction texts
+
   background (100);
   fill("white");
   rect(-200, -250, 400, 500);
   fill(0);
 
   //switch to the simulation when E is pressed
+
   if (keyIsDown(69)) {
     state = "unlocked";
   }
@@ -60,12 +66,14 @@ function lockedScreen() {
 
 function unlockedScreen() {
   //call functions
+
   background(0);
-  create();
+  updateSimulation();
   orbitControl();
   spawnSun();
 
   //hide all the text
+
   p.hide();
   p1.hide();
   p2.hide();
@@ -75,7 +83,8 @@ function unlockedScreen() {
 }
 
 function draw() {
-  //checking the state
+  //check the state and display the correct screen
+
   if (state === "locked") {
     lockedScreen();
   } 
@@ -118,17 +127,17 @@ function keyPressed() {
 
 
 function spawnSun() {
-  //draws the sun in the center
+  //draws the sun in the center with orange stroke and yellow fill
+
   rotateY(frameCount * 0.005);
-  //orange stroke
   stroke(255, 72, 0);
-  //yellow fill
   fill(255, 170, 0);
   sphere(130, 21);
 } 
 
 function createSunRays() {
   //sun rays notation
+
   let somesunRays= {
     x1: 25,
     y1: -110,
@@ -144,6 +153,7 @@ function sunRaysAnimation(sunRays) {
   //creates 43 rays of light that spiral
 
   push();
+
   translate(sunRays.x1, sunRays.y1, sunRays.z1);
 
   for (let i = 0; i < 43; i++) {
@@ -156,7 +166,9 @@ function sunRaysAnimation(sunRays) {
 }
 
 
-function create() {
+function updateSimulation() {
+  //updates and renders the sun rays and planets
+
   for (let sunRays of sunRaysArray) {
     sunRaysAnimation(sunRays);
   }
@@ -167,6 +179,7 @@ function create() {
 
 function createPlanets() {
   //planet notation
+
   let somePlanets= {
     r: random(20, 90),
     angle: random(0, 2 * Math.PI),
