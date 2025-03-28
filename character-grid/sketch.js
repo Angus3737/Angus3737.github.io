@@ -17,13 +17,13 @@ let grassIMG;
 let pathIMG;
 
 function preload() {
-  grassIMG = loadImage("grass.png")
-  pathIMG = loadImage("paving.png")
+  grassIMG = loadImage("grass.png");
+  pathIMG = loadImage("paving.png");
 
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth * 0.8, windowHeight * 0.8);
   cols = Math.ceil(width/CELL_SIZE);
   rows = Math.ceil(height/CELL_SIZE);
   grid = generateRandomGrid(cols, rows);
