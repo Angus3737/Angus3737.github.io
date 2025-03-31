@@ -5,11 +5,15 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-const CELL_SIZE = 75;
+const CELL_SIZE = 80;
 let grid;
 let rows = 9;
 let cols = 8;
 let pieces;
+let pieceSelected = "none";
+let redKing;
+let greenKing;
+
 let originalBoard = [
   ['p', 'p', 'p', 'p', 'k', 'p', 'p', 'p',],
   ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p',],
@@ -65,4 +69,40 @@ function displayPieces() {
       
     }
   }
+}
+
+function mousePressed() {
+  let x = Math.floor(mouseX/CELL_SIZE);
+  let y = Math.floor(mouseY/CELL_SIZE);
+
+  if (originalBoard[y][x] !== 0 && originalBoard[y][x] !== "river") {
+    pieceSelected = "selected";
+    // highlightMoves();
+    console.log(x, y);
+    movePawn(pawn.x, pawn.y);
+  }
+}
+
+function movePawn(x, y) {
+  if (x >= 0 && x <= cols && y >= 0 && y <= rows && originalBoard[y][x] === OPEN_TILE) {
+    //previous Pawn location
+    let oldX = pawn.x;
+    let oldY = pawn.y;
+
+    //reset the old spot ot be open
+    grid[oldY][oldX] = OPEN_TILE;
+    //keep track of where the Pawn is now
+    pawn.x = x;
+    pawn.y = y;
+
+    //put Pawn on grid
+    originalBoard[pawn.y][pawn.x] = pawn;
+  }
+}
+
+function highlightMoves(originalBoard) {
+  let x = originalBoard.x;
+  let y = originalBoard.y;
+  fill(0, 255, 0, 130);
+  rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }

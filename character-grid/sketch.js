@@ -12,7 +12,7 @@ const PLAYER = 9;
 let thePlayer = {
   x: 0,
   y: 0
-}
+};
 let grassIMG;
 let pathIMG;
 
