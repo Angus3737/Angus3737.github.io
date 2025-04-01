@@ -8,25 +8,25 @@
 const CELL_SIZE = 80;
 let grid;
 let rows = 9;
-let cols = 8;
+let cols = 9;
 let pieces;
 let pieceSelected = "none";
 let redKing;
 let greenKing;
 let selectedX = -1;
 let selectedY = -1;
-let selectedPieceType = 0;+
+let selectedPieceType = 0;
 
-let originalBoard = [
+let board = [
   ['p', 'p', 'p', 'p', 'k', 'p', 'p', 'p', 'p'],
   ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ['river', 'river', 'river', 'river', 'river', 'river', 'river', 'river', 'river'],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ['rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp'],
-  ['rp', 'rp', 'rp', 'k', 'rp', 'rp', 'rp', 'rp', 'rp']
+  ['rp', 'rp', 'rp', 'rp', 'k', 'rp', 'rp', 'rp', 'rp']
 ];
 
 function preload() {
@@ -44,6 +44,7 @@ function draw() {
   background(220);
 
   displayGrid();
+  displayRiver();
   displayPieces();
 }
 
@@ -56,26 +57,40 @@ function displayGrid() {
   }
 }
 
+
+function displayRiver() {
+  for (let x = 0; x < cols; x++) {
+    image(water, x * CELL_SIZE, 4 * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+  }
+}
+
 function displayPieces() {
   for (let x = 0; x < cols; x++) {
     for (let y = 0; y < rows; y++) {
-      if (originalBoard[y][x] === 'p' || originalBoard[y][x] === 'rp') {
-        image(pawn, x * CELL_SIZE - 40, y * CELL_SIZE + 40, CELL_SIZE, CELL_SIZE);
+      if (board[y][x] === 'p') {
+        image(pawn, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
-      else if (originalBoard[y][x] === 'k') {
-        image(king, x * CELL_SIZE - 40, y * CELL_SIZE + 40, CELL_SIZE, CELL_SIZE);
-      }
-      else if (originalBoard[y][x] === 'river') {
-        image(water, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
+      else if (board[y][x] === 'rp') {
+        image(pawn, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
-      else if (originalBoard[y][x] === "color") {
+
+      else if (board[y][x] === 'k') {
+        image(king, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      }
+
+      // else if (board[y][x] === 'river') {
+      //   image(water, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      // }
+
+      else if (board[y][x] === "color") {
 
       }
       
     }
   }
 }
+
 
 function mousePressed() {
   let x = Math.floor(mouseX/CELL_SIZE);
@@ -84,29 +99,29 @@ function mousePressed() {
     if (pieceSelected) {
       movePawn(selectedX, selectedY, x, y);
       pieceSelected = false;
-      // originalBoard[y-1][x-1] = "color";
+      // board[y-1][x-1] = "color";
     }
-    else if (originalBoard[y][x] !== 0 && originalBoard[y][x] !== "river") {
+    else if (board[y][x] !== 0 && board[y][x] !== "river") {
       pieceSelected = true;
       selectedX = x;
       selectedY = y;
-      selectedPieceType = originalBoard[y][x];
+      selectedPieceType = board[y][x];
 
     }
   }
 }
 
 function movePawn(oldX, oldY, newX, newY) {
-  if (originalBoard[newY][newX] === 0 || originalBoard[newY][newX] === "river") {
-    originalBoard[newY][newX] = originalBoard[oldY][oldX];
-    originalBoard[oldY][oldX] = 0;
+  if (board[newY][newX] === 0 || board[newY][newX] === "river") {
+    board[newY][newX] = board[oldY][oldX];
+    board[oldY][oldX] = 0;
   }
 }
 
 
-function highlightMoves(originalBoard) {
-  let x = originalBoard.x;
-  let y = originalBoard.y;
+function highlightMoves(board) {
+  let x = board.x;
+  let y = board.y;
   fill(0, 255, 0, 130);
   rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
