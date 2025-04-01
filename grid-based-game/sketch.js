@@ -15,7 +15,7 @@ let redKing;
 let greenKing;
 let selectedX = -1;
 let selectedY = -1;
-let selectedPieceType = 0;
+let selectedPieceType = 0;+
 
 let originalBoard = [
   ['p', 'p', 'p', 'p', 'k', 'p', 'p', 'p', 'p'],
