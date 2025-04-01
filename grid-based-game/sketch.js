@@ -13,6 +13,9 @@ let pieces;
 let pieceSelected = "none";
 let redKing;
 let greenKing;
+let selectedX = -1;
+let selectedY = -1;
+let selectedPieceType = 0;
 
 let originalBoard = [
   ['p', 'p', 'p', 'p', 'k', 'p', 'p', 'p',],
@@ -74,29 +77,27 @@ function displayPieces() {
 function mousePressed() {
   let x = Math.floor(mouseX/CELL_SIZE);
   let y = Math.floor(mouseY/CELL_SIZE);
-
-  if (originalBoard[y][x] !== 0 && originalBoard[y][x] !== "river") {
-    pieceSelected = "selected";
-    // highlightMoves();
-    console.log(x, y);
-    movePawn(pawn.x, pawn.y);
+  if (x >= 0 && x <= cols && y >= 0 && y < rows) {
+    if (pieceSelected) {
+      movePawn(selectedX, selectedY, x, y)
+      pieceSelected = false;
+      selectedX = -1;
+      selectedY = -1;
+      selectedPieceType = 0;
+    }
+    else if (originalBoard[y][x] !== 0 && originalBoard[y][x] !== "river") {
+      pieceSelected = true;
+      selectedX = x;
+      selectedY = y;
+      selectedPieceType = originalBoard[y][x];
+    }
   }
 }
 
-function movePawn(x, y) {
-  if (x >= 0 && x <= cols && y >= 0 && y <= rows && originalBoard[y][x] === OPEN_TILE) {
-    //previous Pawn location
-    let oldX = pawn.x;
-    let oldY = pawn.y;
-
-    //reset the old spot ot be open
-    grid[oldY][oldX] = OPEN_TILE;
-    //keep track of where the Pawn is now
-    pawn.x = x;
-    pawn.y = y;
-
-    //put Pawn on grid
-    originalBoard[pawn.y][pawn.x] = pawn;
+function movePawn(oldX, oldY, newX, newY) {
+  if (originalBoard[newY][newX] === 0) {
+    originalBoard[newY][newX] = originalBoard[oldY][oldX]
+    originalBoard[oldY][oldX] = 0;
   }
 }
 
