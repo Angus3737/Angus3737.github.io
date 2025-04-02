@@ -26,12 +26,16 @@ let board = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ['rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp'],
-  ['rp', 'rp', 'rp', 'rp', 'k', 'rp', 'rp', 'rp', 'rp']
+  ['rp', 'rp', 'rp', 'rp', 'rk', 'rp', 'rp', 'rp', 'rp']
 ];
 
 function preload() {
-  pawn = loadImage("cartoon-point-chocolate-beans.png");
-  king = loadImage("download.jpg");
+  //load images for pieces
+  redKing = loadImage("redking.png");
+  blackKing = loadImage("blackking.png");
+  redPawn = loadImage("redpawn.png");
+  blackPawn = loadImage("blackpawn.png");
+
   water = loadImage("blue-water.avif");
 }
 
@@ -50,6 +54,7 @@ function draw() {
 
 function displayGrid() {
   // draws a grid 8 x 9
+  fill(247, 219, 167);
   for (let x = 0; x < cols; x++) {
     for (let y = 0; y < rows; y++) {
       square(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE);
@@ -67,16 +72,20 @@ function displayRiver() {
 function displayPieces() {
   for (let x = 0; x < cols; x++) {
     for (let y = 0; y < rows; y++) {
-      if (board[y][x] === 'p') {
-        image(pawn, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      if (board[y][x] === 'rp') {
+        image(redPawn, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
 
-      else if (board[y][x] === 'rp') {
-        image(pawn, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      else if (board[y][x] === 'p') {
+        image(blackPawn, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      }
+
+      else if (board[y][x] === 'rk') {
+        image(redKing, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
 
       else if (board[y][x] === 'k') {
-        image(king, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        image(blackKing, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
 
       // else if (board[y][x] === 'river') {
@@ -112,16 +121,19 @@ function mousePressed() {
 }
 
 function movePawn(oldX, oldY, newX, newY) {
-  if (board[newY][newX] === 0 || board[newY][newX] === "river") {
+  if (board[newY][newX] === 0 && board[newY][newX] === board[oldY - 1][oldX]) {
+
     board[newY][newX] = board[oldY][oldX];
+
+    //erases the last frame of the piece
     board[oldY][oldX] = 0;
   }
 }
 
 
-function highlightMoves(board) {
-  let x = board.x;
-  let y = board.y;
-  fill(0, 255, 0, 130);
-  rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-}
+// function highlightMoves(board) {
+//   let x = board.x;
+//   let y = board.y;
+//   fill(0, 255, 0, 130);
+//   rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+// }
