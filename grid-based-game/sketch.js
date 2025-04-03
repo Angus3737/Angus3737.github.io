@@ -6,7 +6,6 @@
 // - describe what you did to take this project "above and beyond"
 
 const CELL_SIZE = 80;
-let grid;
 let rows = 9;
 let cols = 9;
 let pieces;
@@ -69,17 +68,6 @@ function draw() {
   displayGrid();
   displayRiver();
   displayPieces();
-
-  if (state === "redTurn") {
-    displayGrid();
-    displayRiver();
-    displayPieces();
-  }
-  else if (state === "blackTurn") {
-    displayGrid();
-    displayRiver();
-    displayPieces();
-  }
 }
 
 function displayGrid() {
@@ -131,69 +119,57 @@ function mousePressed() {
   let x = Math.floor(mouseX/CELL_SIZE);
   let y = Math.floor(mouseY/CELL_SIZE);
   if (x >= 0 && x < cols && y >= 0 && y < rows) {
+      let clickedPiece = board[y][x];
+
     if (pieceSelected) {
-      moveRedPawn(selectedX, selectedY, x, y);
+      let pieceMoved = movePiece(selectedX, selectedY, x, y);
       pieceSelected = false;
-    }
-    else if (board[y][x] !== 0 && board[y][x] !== "river") {
-      pieceSelected = true;
-      selectedX = x;
-      selectedY = y;
-      selectedPieceType = board[y][x];
 
+      //alternate turns if moved
+      if (pieceMoved) {
+        if (state === "redTurn") {
+          state = "blackTurn";
+        }
+        else if (state === "blackTurn") {
+          state = "redTurn";
+        }
+      }
     }
-    let state = "blackTurn";
+    else if (clickedPiece !== 0) {
+      if ((state === "redTurn" && clickedPiece.startsWith("r")) || 
+      (state === "blackTurn" && !clickedPiece.startsWith("r"))) {
+        selectedX = x;
+        selectedY = y;
+        selectedPieceType = clickedPiece;
+        pieceSelected = true;
+      }
+    }
   }
 }
 
-function moveRedPawn(oldX, oldY, newX, newY) {
+function movePiece(oldX, oldY, newX, newY) {
   let piece = board[oldY][oldX];
   let targetPiece = board[newY][newX];
 
   //invalid move
-  if (oldX !== newX && oldY !== newY) {
-    return;
+  if (!(oldX === newX || oldY === newY)) {
+    return false;
   }
 
   if (!clearPath(oldX, oldY, newX, newY)) {
-    return
+    return false;
   }
 
   //can't capture its own piece
-  if (targetPiece !== 0) {
-    if(sameTeam(piece, targetPiece)) {
-      return;
-    }
+  if (targetPiece !== 0 && sameTeam(piece, targetPiece)) {
+    return false;
   }
 
   board[newY][newX] = piece;
   board[oldY][oldX] = 0;
+  return true;
 }
 
-
-function moveBlackPawn(oldX, oldY, newX, newY) {
-  let piece = board[oldY][oldX];
-  let targetPiece = board[newY][newX];
-
-  //invalid move
-  if (oldX !== newX && oldY !== newY) {
-    return;
-  }
-
-  if (!clearPath(oldX, oldY, newX, newY)) {
-    return
-  }
-
-  //can't capture its own piece
-  if (targetPiece !== 0) {
-    if(sameTeam(piece, targetPiece)) {
-      return;
-    }
-  }
-
-  board[newY][newX] = piece;
-  board[oldY][oldX] = 0;
-}
 
 
 function clearPath(oldX, oldY, newX, newY) {
