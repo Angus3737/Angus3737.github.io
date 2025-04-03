@@ -10,7 +10,7 @@ let grid;
 let rows = 9;
 let cols = 9;
 let pieces;
-let pieceSelected = "none";
+let pieceSelected = false;
 let redKing;
 let greenKing;
 let selectedX = -1;
@@ -133,8 +133,8 @@ function displayPieces() {
 function mousePressed() {
   let x = Math.floor(mouseX/CELL_SIZE);
   let y = Math.floor(mouseY/CELL_SIZE);
-  if (x >= 0 && x <= cols && y >= 0 && y < rows) {
-    if (pieceSelected === "p") {
+  if (x >= 0 && x < cols && y >= 0 && y < rows) {
+    if (pieceSelected) {
       movePawn(selectedX, selectedY, x, y);
       pieceSelected = false;
     }
@@ -149,11 +149,69 @@ function mousePressed() {
 }
 
 function movePawn(oldX, oldY, newX, newY) {
-  if (board[newY][newX] === 0 && board[newY][newX] === "river") {
+  let piece = board[oldY][oldX];
+  let targetPiece = board[newY][newX];
 
-    board[newY][newX] = board[oldY][oldX];
-
-    //erases the last frame of the piece
-    board[oldY][oldX] = 0;
+  //invalid move
+  if (oldX !== newX && oldY !== newY) {
+    return;
   }
+
+  if (!clearPath(oldX, oldY, newX, newY)) {
+    return
+  }
+
+  //can't capture its own piece
+  if (targetPiece !== 0) {
+    if(sameTeam(piece, targetPiece)) {
+      return;
+    }
+  }
+
+  board[newY][newX] = piece;
+  board[oldY][oldX] = 0;
+}
+
+function clearPath(oldX, oldY, newX, newY) {
+  //vertical moves
+  if (oldX === newX) {
+    let step;
+    if(newY > oldY) {
+      step = 1;
+    }
+    else {
+      step = -1;
+    }
+
+    for (let y = oldY + step; y !== newY; y += step) {
+      if (board[y][oldX] !== 0) {
+        return false;
+      }
+    }
+  }
+  else if (oldY === newY) {
+    let step
+    if (newX > oldX) {
+      step = 1;
+    }
+    else {
+      step = -1
+    }
+    for (let x = oldX + step; x !== newX; x += step) {
+      if (board[oldY][x] !== 0) {
+        return false
+      }
+    }
+  }
+  return true;
+}
+
+function sameTeam(piece1, piece2) {
+  if (piece1.startsWith('r') && piece2.startsWith('r')) {
+    return true;
+  }
+  if (!piece1.startsWith('r') && !piece2.startsWith('r')) {
+    return true;
+  }
+  return false;
 }
