@@ -1,6 +1,6 @@
 // Chinese Chess
 // Angus Li
-// April
+// April 10, 2025
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
@@ -16,16 +16,17 @@ let greenKing;
 let selectedX = -1;
 let selectedY = -1;
 let selectedPieceType = 0;
+let state = "instructions";
 
 let board = [
   ['p', 'p', 'p', 'p', 'k', 'p', 'p', 'p', 'p'],
-  ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ['rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp', 'rp'],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ['rp', 'rp', 'rp', 'rp', 'rk', 'rp', 'rp', 'rp', 'rp']
 ];
 
@@ -42,14 +43,46 @@ function preload() {
 function setup() {
   createCanvas(CELL_SIZE * cols, CELL_SIZE * rows);
 
+  let link = createA('https://www.ymimports.com/pages/how-to-play-xiangqi-chinese-chess', 'How to Play');
+  link.position(-200, 200);
+}
+
+function lockedScreen() {
+  //background for the instruction texts
+
+  background (100);
+  fill("white");
+  rect(-200, -250, 400, 500);
+  fill(0);
+
+  //switch to the simulation when E is pressed
+
+  if (keyIsDown(69)) {
+    state = "redTurn";
+  }
 }
 
 function draw() {
   background(220);
 
+
   displayGrid();
   displayRiver();
   displayPieces();
+
+  // if (state === "instructions") {
+  //   lockedScreen();
+  // }
+  // else if (state === "redTurn") {
+  //   displayGrid();
+  //   displayRiver();
+  //   displayPieces();
+  // }
+  // else if (state === "blackTurn") {
+  //   displayGrid();
+  //   displayRiver();
+  //   displayPieces();
+  // }
 }
 
 function displayGrid() {
@@ -88,10 +121,6 @@ function displayPieces() {
         image(blackKing, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
 
-      // else if (board[y][x] === 'river') {
-      //   image(water, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-      // }
-
       else if (board[y][x] === "color") {
 
       }
@@ -105,10 +134,9 @@ function mousePressed() {
   let x = Math.floor(mouseX/CELL_SIZE);
   let y = Math.floor(mouseY/CELL_SIZE);
   if (x >= 0 && x <= cols && y >= 0 && y < rows) {
-    if (pieceSelected) {
+    if (pieceSelected === "p") {
       movePawn(selectedX, selectedY, x, y);
       pieceSelected = false;
-      // board[y-1][x-1] = "color";
     }
     else if (board[y][x] !== 0 && board[y][x] !== "river") {
       pieceSelected = true;
@@ -121,7 +149,7 @@ function mousePressed() {
 }
 
 function movePawn(oldX, oldY, newX, newY) {
-  if (board[newY][newX] === 0 && board[newY][newX] === board[oldY][oldX]) {
+  if (board[newY][newX] === 0 && board[newY][newX] === "river") {
 
     board[newY][newX] = board[oldY][oldX];
 
@@ -129,11 +157,3 @@ function movePawn(oldX, oldY, newX, newY) {
     board[oldY][oldX] = 0;
   }
 }
-
-
-// function highlightMoves(board) {
-//   let x = board.x;
-//   let y = board.y;
-//   fill(0, 255, 0, 130);
-//   rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-// }
