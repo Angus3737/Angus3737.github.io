@@ -121,7 +121,7 @@ function mousePressed() {
 }
 
 function movePawn(oldX, oldY, newX, newY) {
-  if (board[newY][newX] === 0 && board[newY][newX] === board[oldY - 1][oldX]) {
+  if (board[newY][newX] === 0 && board[newY][newX] === board[oldY][oldX]) {
 
     board[newY][newX] = board[oldY][oldX];
 
