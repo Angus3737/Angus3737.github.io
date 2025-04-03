@@ -16,7 +16,7 @@ let greenKing;
 let selectedX = -1;
 let selectedY = -1;
 let selectedPieceType = 0;
-let state = "instructions";
+let state = "redTurn";
 
 let board = [
   ['p', 'p', 'p', 'p', 'k', 'p', 'p', 'p', 'p'],
@@ -70,19 +70,16 @@ function draw() {
   displayRiver();
   displayPieces();
 
-  // if (state === "instructions") {
-  //   lockedScreen();
-  // }
-  // else if (state === "redTurn") {
-  //   displayGrid();
-  //   displayRiver();
-  //   displayPieces();
-  // }
-  // else if (state === "blackTurn") {
-  //   displayGrid();
-  //   displayRiver();
-  //   displayPieces();
-  // }
+  if (state === "redTurn") {
+    displayGrid();
+    displayRiver();
+    displayPieces();
+  }
+  else if (state === "blackTurn") {
+    displayGrid();
+    displayRiver();
+    displayPieces();
+  }
 }
 
 function displayGrid() {
@@ -135,7 +132,7 @@ function mousePressed() {
   let y = Math.floor(mouseY/CELL_SIZE);
   if (x >= 0 && x < cols && y >= 0 && y < rows) {
     if (pieceSelected) {
-      movePawn(selectedX, selectedY, x, y);
+      moveRedPawn(selectedX, selectedY, x, y);
       pieceSelected = false;
     }
     else if (board[y][x] !== 0 && board[y][x] !== "river") {
@@ -145,10 +142,11 @@ function mousePressed() {
       selectedPieceType = board[y][x];
 
     }
+    let state = "blackTurn";
   }
 }
 
-function movePawn(oldX, oldY, newX, newY) {
+function moveRedPawn(oldX, oldY, newX, newY) {
   let piece = board[oldY][oldX];
   let targetPiece = board[newY][newX];
 
@@ -171,6 +169,32 @@ function movePawn(oldX, oldY, newX, newY) {
   board[newY][newX] = piece;
   board[oldY][oldX] = 0;
 }
+
+
+function moveBlackPawn(oldX, oldY, newX, newY) {
+  let piece = board[oldY][oldX];
+  let targetPiece = board[newY][newX];
+
+  //invalid move
+  if (oldX !== newX && oldY !== newY) {
+    return;
+  }
+
+  if (!clearPath(oldX, oldY, newX, newY)) {
+    return
+  }
+
+  //can't capture its own piece
+  if (targetPiece !== 0) {
+    if(sameTeam(piece, targetPiece)) {
+      return;
+    }
+  }
+
+  board[newY][newX] = piece;
+  board[oldY][oldX] = 0;
+}
+
 
 function clearPath(oldX, oldY, newX, newY) {
   //vertical moves
