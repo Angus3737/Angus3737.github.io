@@ -150,6 +150,13 @@ function mousePressed() {
 function movePiece(oldX, oldY, newX, newY) {
   let piece = board[oldY][oldX];
   let targetPiece = board[newY][newX];
+  //if piece is a king, it can only move 1 square
+  if (piece === 'rk'|| piece === 'k') {
+    if (!(Math.abs(oldX - newX) <= 1 && Math.abs(oldY - newY) <= 1)) {
+      return false;
+    }
+  }
+
 
   //invalid move
   if (!(oldX === newX || oldY === newY)) {
