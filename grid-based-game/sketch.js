@@ -18,7 +18,7 @@ let selectedPieceType = 0;
 let state = "redTurn";
 
 let board = [
-  ['p', 'p', 'p', 'p', 'k', 'p', 'p', 'p', 'p'],
+  ['c', 'c', 'c', 'c', 'k', 'c', 'c', 'c', 'c'],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -26,7 +26,7 @@ let board = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ['rp', 'rp', 'rp', 'rp', 'rk', 'rp', 'rp', 'rp', 'rp']
+  ['rc', 'rc', 'rc', 'rc', 'rk', 'rc', 'rc', 'rc', 'rc']
 ];
 
 function preload() {
@@ -35,6 +35,8 @@ function preload() {
   blackKing = loadImage("blackking.png");
   redPawn = loadImage("redpawn.png");
   blackPawn = loadImage("blackpawn.png");
+  redChariot = loadImage("redchariot.png");
+  blackChriot = loadImage("blackchariot.png");
 
   water = loadImage("blue-water.avif");
 }
@@ -90,12 +92,12 @@ function displayRiver() {
 function displayPieces() {
   for (let x = 0; x < cols; x++) {
     for (let y = 0; y < rows; y++) {
-      if (board[y][x] === 'rp') {
-        image(redPawn, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      if (board[y][x] === 'rc') {
+        image(redChariot, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
 
-      else if (board[y][x] === 'p') {
-        image(blackPawn, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      else if (board[y][x] === 'c') {
+        image(blackChriot, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
       }
 
       else if (board[y][x] === 'rk') {
@@ -119,7 +121,7 @@ function mousePressed() {
   let x = Math.floor(mouseX/CELL_SIZE);
   let y = Math.floor(mouseY/CELL_SIZE);
   if (x >= 0 && x < cols && y >= 0 && y < rows) {
-      let clickedPiece = board[y][x];
+    let clickedPiece = board[y][x];
 
     if (pieceSelected) {
       let pieceMoved = movePiece(selectedX, selectedY, x, y);
@@ -197,16 +199,16 @@ function clearPath(oldX, oldY, newX, newY) {
     }
   }
   else if (oldY === newY) {
-    let step
+    let step;
     if (newX > oldX) {
       step = 1;
     }
     else {
-      step = -1
+      step = -1;
     }
     for (let x = oldX + step; x !== newX; x += step) {
       if (board[oldY][x] !== 0) {
-        return false
+        return false;
       }
     }
   }
