@@ -11,6 +11,11 @@
 - [Rectangle Grid](rectangle-grid)
 - [Game of Life](game-of-life)
 - [Character Moving in Grid](character-grid)
+- [Timer](timer)
+- [Class walker](walker)
+- [Fireworks](fireworks)
+- [Nodes](nodes)
+- [Rotate](rotate)
 
 
 # CS30 Projects

@@ -84,7 +84,6 @@ function displayGrid() {
   }
 }
 
-
 function displayRiver() {
   //draws river just for the background
   for (let x = 0; x < cols; x++) {
@@ -116,7 +115,6 @@ function displayPieces() {
   }
 }
 
-
 function mousePressed() {
 
   //piece selection and piece capturing
@@ -134,7 +132,7 @@ function mousePressed() {
         checkForWin();
         if (state !== "gameOver") {
           if (state === "redTurn") {
-            state = "blackTurn"
+            state = "blackTurn";
           }
           else if (state === "blackTurn") {
             state = "redTurn";
@@ -145,8 +143,8 @@ function mousePressed() {
     else if (clickedPiece !== 0) {
 
       //selects a piece if it's a player's turn
-      if ((state === "redTurn" && clickedPiece.startsWith("r")) || 
-      (state === "blackTurn" && !clickedPiece.startsWith("r"))) {
+      if (state === "redTurn" && clickedPiece.startsWith("r") || 
+      state === "blackTurn" && !clickedPiece.startsWith("r")) {
         selectedX = x;
         selectedY = y;
         selectedPieceType = clickedPiece;
@@ -169,7 +167,6 @@ function movePiece(oldX, oldY, newX, newY) {
     }
   }
 
-
   //can only move horizontally and veritcally
   if (!(oldX === newX || oldY === newY)) {
     return false;
@@ -190,8 +187,6 @@ function movePiece(oldX, oldY, newX, newY) {
   board[oldY][oldX] = 0;
   return true;
 }
-
-
 
 function clearPath(oldX, oldY, newX, newY) {
 
@@ -234,27 +229,27 @@ function sameTeam(piece1, piece2) {
 function checkForWin() {
 
   //checks if any of the kings are still alive
-let redKingAlive = false;
-let blackKingAlive = false;
+  let redKingAlive = false;
+  let blackKingAlive = false;
 
-for (let y = 0; y < rows; y++) {
-  for (let x = 0; x < cols; x++) {
-    if (board[y][x] === "rk") {
-      redKingAlive = true;
-    }
-    else if (board[y][x] === "k") {
-      blackKingAlive = true;
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      if (board[y][x] === "rk") {
+        redKingAlive = true;
+      }
+      else if (board[y][x] === "k") {
+        blackKingAlive = true;
+      }
     }
   }
-}
 
-if (!redKingAlive) {
-  state = "gameOver";
-  winner = "Black Wins!!!"
-}
+  if (!redKingAlive) {
+    state = "gameOver";
+    winner = "Black Wins!!!";
+  }
 
-else if (!blackKingAlive) {
-  state = "gameOver";
-  winner = "Red Wins!!!"
-}
+  else if (!blackKingAlive) {
+    state = "gameOver";
+    winner = "Red Wins!!!";
+  }
 }
