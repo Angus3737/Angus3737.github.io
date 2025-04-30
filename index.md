@@ -16,6 +16,7 @@
 - [Fireworks](fireworks)
 - [Nodes](nodes)
 - [Rotate](rotate)
+- [Local Storage](local-storage)
 
 
 # CS30 Projects
