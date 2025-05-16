@@ -18,6 +18,7 @@
 - [Rotate](rotate)
 - [Local Storage](local-storage)
 - [2d Collide Demo](2d-collide)
+- [OOP Inheritance](inheritance)
 
 # CS30 Projects
 - [Interactive Scene](interactive-scene)
